@@ -1,0 +1,10 @@
+{
+  "name": "summer-learn-api",
+  "version": "1.0.0",
+  "description": "The API that provides summer learn bot with data",
+  "main": "app.js",
+  "repository": "https://github.com/esingletary/summer-learn-api.git",
+  "author": "Emmanuel Singletary <me@manny.co>",
+  "license": "MIT",
+  "private": true
+}
