@@ -6,5 +6,18 @@
   "repository": "https://github.com/esingletary/summer-learn-api.git",
   "author": "Emmanuel Singletary <me@manny.co>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "standard"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "mysql": "^2.15.0",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "standard": "^11.0.0"
+  }
 }
