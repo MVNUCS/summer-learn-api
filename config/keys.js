@@ -16,9 +16,11 @@ module.exports.database = {
 /** Google Sheets */
 module.exports.sheets = {
   spreadsheetId: process.env.SPREADSHEET_ID,
+  spreadsheetRange: process.env.SPREADSHEET_RANGE,
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectURL: process.env.REDIRECT_URL,
   accessToken: process.env.ACCESS_TOKEN,
-  refreshToken: process.env.REFRESH_TOKEN
+  refreshToken: process.env.REFRESH_TOKEN,
+  expiryDate: process.env.EXPIRY_DATE
 }
