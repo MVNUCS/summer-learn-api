@@ -14,5 +14,5 @@ CREATE TABLE sections (
 CREATE TABLE terms (
   term    VARCHAR(3),
   dates   VARCHAR(50),
-  PRIMARY KEY term
+  PRIMARY KEY (term)
 );
