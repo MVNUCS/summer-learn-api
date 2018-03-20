@@ -2,6 +2,7 @@
 
 const logger = require('../config/logger')
 const keys = require('../config/keys')
+const queries = require('../config/queries')
 const mysql = require('mysql')
 
 const pool = mysql.createPool(keys.database)
@@ -27,11 +28,7 @@ exports.insertCourseInfo = function (info) {
       if (err) {
         return reject(err)
       }
-      connection.query(`
-        REPLACE INTO sections (course_id, section, title, term, instructor, inst_type, registered, cap, credits)
-        VALUES ?
-        `,
-      [info], function (err, results, fields) {
+      connection.query(queries.insertCourseInfo, [info], function (err, results, fields) {
         if (err) {
           return reject(err)
         }
@@ -54,15 +51,17 @@ exports.getCourse = function (courseId, sectionId) {
       if (err) {
         return reject(err)
       }
-      connection.query(`
-        SELECT *
-        FROM sections
-        WHERE course_id = ? AND section = ?
-      `, [courseId, sectionId], (err, results, fields) => {
+      let query = ''
+      if (sectionId === undefined) {
+        query = queries.getAllSectionsOfCourse
+      } else {
+        query = queries.getCourse
+      }
+      connection.query(query, [courseId, sectionId], (err, results, fields) => {
         if (err) {
           return reject(err)
         }
-        return resolve(results[0])
+        return resolve(results)
       })
       connection.release()
     })
@@ -79,11 +78,7 @@ exports.getAllCourses = function () {
       if (err) {
         return reject(err)
       }
-      connection.query(`
-        SELECT *
-        FROM sections
-        ORDER BY course_id, section ASC
-      `, (err, results, fields) => {
+      connection.query(queries.getAllCourses, (err, results, fields) => {
         if (err) {
           return reject(err)
         }
@@ -105,12 +100,7 @@ exports.getCoursesByTerm = function (term) {
       if (err) {
         return reject(err)
       }
-      connection.query(`
-        SELECT *
-        FROM sections
-        WHERE term = ?
-        ORDER BY course_id, section ASC
-      `, [term], (err, results, fields) => {
+      connection.query(queries.getCoursesByTerm, [term], (err, results, fields) => {
         if (err) {
           return reject(err)
         }

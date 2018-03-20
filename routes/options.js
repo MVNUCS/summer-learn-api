@@ -34,7 +34,7 @@ router.get('/update', async (req, res, next) => {
   } catch (error) {
     logger.log('error', 'An error has occured when updating the database')
     logger.log('error', error)
-    res.json({msg: 'An error has occured when updating the database. Please try again later.'})
+    res.status(500).json({msg: 'An error has occured when updating the database. Please try again later.'})
   }
 })
 

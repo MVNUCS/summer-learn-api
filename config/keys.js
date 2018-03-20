@@ -5,6 +5,11 @@ module.exports.logging = {
   loglevel: process.env.LOGGING_LEVEL
 }
 
+/** Express */
+module.exports.express = {
+  port: process.env.PORT
+}
+
 /** MySQL */
 module.exports.database = {
   host: process.env.MYSQL_HOST,
