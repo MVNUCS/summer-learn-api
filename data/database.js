@@ -93,3 +93,30 @@ exports.getAllCourses = function () {
     })
   })
 }
+
+/**
+ * Retrieves information about courses in a specific term
+ * @param {string} term The ID of the term
+ * @returns The course information in JSON format
+ */
+exports.getCoursesByTerm = function (term) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return reject(err)
+      }
+      connection.query(`
+        SELECT *
+        FROM sections
+        WHERE term = ?
+        ORDER BY course_id, section ASC
+      `, [term], (err, results, fields) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}

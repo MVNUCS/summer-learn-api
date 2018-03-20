@@ -2,6 +2,7 @@
 
 require('dotenv').config()
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const logger = require('./config/logger')
 
@@ -10,6 +11,8 @@ const options = require('./routes/options')
 
 /** The express server used to serve the API that controls the connector */
 const app = express()
+
+app.use(bodyParser.json())
 
 app.use('/courses', courses)
 app.use('/options', options)
