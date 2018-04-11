@@ -1170,6 +1170,10 @@ mkdirp@0.5.1, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
+mocha-standard@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mocha-standard/-/mocha-standard-1.0.0.tgz#12150cfdce405564068bac3f9e66661c3ccd15f8"
+
 mocha@^5.0.5:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.5.tgz#e228e3386b9387a4710007a641f127b00be44b52"

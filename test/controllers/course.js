@@ -3,7 +3,7 @@
 /* global describe it */
 require('dotenv').config()
 const expect = require('chai').expect
-const Course = require('../controllers/course')
+const Course = require('../../controllers/course')
 
 const testObject = new Course('SCI-3012', 1, 'Science and the Modern Mind', 'A6', 'P. Madtes', 2)
 
@@ -22,5 +22,11 @@ describe('getCourse()', () => {
 
   it('should return an empty set if given an unknown courseId', async () => {
     expect(await Course.getCourse('invalid')).to.have.lengthOf(0)
+  })
+})
+
+describe('speak()', () => {
+  it('should say the correct information when executed', () => {
+    expect(testObject.speak()).to.equal('SCI-3012, section 1 is taught by P. Madtes in the A6 term')
   })
 })
