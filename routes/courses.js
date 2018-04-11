@@ -5,7 +5,7 @@ const router = express.Router()
 
 const logger = require('../config/logger')
 
-const database = require('../data/database')
+const database = require('../services/database')
 
 /**
  * Gets all courses

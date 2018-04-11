@@ -5,8 +5,8 @@ const router = express.Router()
 
 const logger = require('../config/logger')
 
-const sheets = require('../data/sheets')
-const database = require('../data/database')
+const sheets = require('../services/sheets')
+const database = require('../services/database')
 
 /**
  * Checks the health status of Sheets and the MySQL database
