@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "lts/*"
+services:
+  - mysql
+before_install:
+  - mysql -u root --password="" < sql/section.sql
