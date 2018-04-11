@@ -18,28 +18,6 @@ exports.checkHealth = function () {
 }
 
 /**
- * Inserts course info from Google Sheets
- * @param {string} info The course information to insert
- * @returns Whether the operation was successful or not
- */
-exports.insertCourseInfo = function (info) {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
-      connection.query(queries.insertCourseInfo, [info], function (err, results, fields) {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(results)
-      })
-      connection.release()
-    })
-  })
-}
-
-/**
  * Retrieves information about a specified course
  * @param {string} courseId The ID of the course
  * @param {number} sectionId The section of the course
@@ -58,6 +36,28 @@ exports.getCourse = function (courseId, sectionId) {
         query = queries.getCourse
       }
       connection.query(query, [courseId, sectionId], (err, results, fields) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+/**
+ * Retrieves information about all sections of a specified course
+ * @param {string} courseId The ID of the course
+ * @returns The course information in JSON format
+ */
+exports.getAllSectionsOfCourse = function (courseId) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return reject(err)
+      }
+      connection.query(queries.getAllSectionsOfCourse, [courseId], (err, results, fields) => {
         if (err) {
           return reject(err)
         }
@@ -101,6 +101,28 @@ exports.getCoursesByTerm = function (term) {
         return reject(err)
       }
       connection.query(queries.getCoursesByTerm, [term], (err, results, fields) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+/**
+ * Inserts course info from Google Sheets
+ * @param {string} info The course information to insert
+ * @returns Whether the operation was successful or not
+ */
+exports.insertCourseInfo = function (info) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return reject(err)
+      }
+      connection.query(queries.insertCourseInfo, [info], function (err, results, fields) {
         if (err) {
           return reject(err)
         }

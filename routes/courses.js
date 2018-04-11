@@ -5,14 +5,14 @@ const router = express.Router()
 
 const logger = require('../config/logger')
 
-const database = require('../services/database')
+const Course = require('../controllers/course')
 
 /**
  * Gets all courses
  */
 router.get('/', async (req, res, next) => {
   try {
-    let courseInfo = await database.getAllCourses()
+    let courseInfo = await Course.getAllCourses()
     res.json(courseInfo)
     logger.log('info', 'Fetched information for all courses')
   } catch (error) {
@@ -32,11 +32,11 @@ router.post('/', async (req, res, next) => {
     res.status(400).json({msg: 'Please provide either a course id or both a couse id and a section'})
   } else {
     try {
-      let courseInfo = await database.getCourse(req.body.course, req.body.section)
+      let courseInfo = await Course.getCourse(req.body.course, req.body.section)
       res.json(courseInfo)
-      logger.log('info', `Fetched information for course: ${req.body.course}:${req.body.section}`)
+      logger.log('info', `Fetched information for course: ${req.body.course}`)
     } catch (error) {
-      logger.log('error', `An error has occured when fetching specific course: ${req.body.course}:${req.body.section}`)
+      logger.log('error', `An error has occured when fetching specific course: ${req.body.course}`)
       logger.log('error', error)
       res.status(500).json({msg: `An error has occured fetching the specified course. Please try again later.`})
     }
@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
  */
 router.get('/term/:term', async (req, res, next) => {
   try {
-    let courseInfo = await database.getCoursesByTerm(req.params.term)
+    let courseInfo = await Course.getCoursesByTerm(req.params.term)
     res.json(courseInfo)
     logger.log('info', `Fetched information for all courses in term: ${req.params.term}`)
   } catch (error) {

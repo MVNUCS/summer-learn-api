@@ -1,3 +1,10 @@
+CREATE TABLE terms (
+  term    VARCHAR(3),
+  start_date  DATE,
+  end_date  DATE,
+  PRIMARY KEY (term)
+);
+
 CREATE TABLE sections (
   course_id   VARCHAR(10),
   section     NUMERIC,
@@ -8,11 +15,13 @@ CREATE TABLE sections (
   registered  NUMERIC,
   cap         VARCHAR(50),
   credits     NUMERIC NOT NULL,
-  PRIMARY KEY (course_id, section)
+  PRIMARY KEY (course_id, section),
+  FOREIGN KEY (term) REFERENCES terms(term)
 );
 
-CREATE TABLE terms (
-  term    VARCHAR(3),
-  dates   VARCHAR(50),
-  PRIMARY KEY (term)
-);
+INSERT INTO terms (term, start_date, end_date) VALUES
+  ('A6', '2018-05-07', '2018-06-17'),
+  ('A8', '2018-05-07', '2018-07-01'),
+  ('B6', '2018-06-18', '2018-08-05'),
+  ('B8', '2018-06-18', '2018-08-19'),
+  ('C6', '2018-07-09', '2018-08-19');
