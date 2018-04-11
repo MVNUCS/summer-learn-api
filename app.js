@@ -10,6 +10,8 @@ const keys = require('./config/keys')
 const courses = require('./routes/courses')
 const options = require('./routes/options')
 
+// const Response = require('./controllers/response')
+
 /** The express server used to serve the API that controls the connector */
 const app = express()
 
@@ -22,3 +24,8 @@ app.use('/options', options)
 
 /** Starting the server */
 app.listen(keys.express.port, () => logger.log('info', `Server started on port ${keys.express.port}`))
+
+// ;(async () => {
+//   let resp = new Response('agent', 'What classes can I take during the C6 term?', {'Term': 'A6'}, 'test-intent', {})
+//   console.log(await resp.createResponse())
+// })()

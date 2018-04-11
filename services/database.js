@@ -132,3 +132,15 @@ exports.insertCourseInfo = function (info) {
     })
   })
 }
+
+/**
+ * Close the connection pool
+ */
+exports.closePool = function () {
+  return new Promise((resolve, reject) => {
+    pool.end(err => {
+      if (err) return reject(err)
+      return resolve()
+    })
+  })
+}

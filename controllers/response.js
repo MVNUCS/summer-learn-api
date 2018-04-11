@@ -1,0 +1,34 @@
+'use strict'
+
+const Course = require('./course')
+
+class Response {
+  constructor (source, resolvedQuery, parameters, intentName, context) {
+    this.source = source
+    this.resolvedQuery = resolvedQuery
+    this.parameters = parameters
+    this.intentName = intentName
+    this.context = context
+  }
+
+  async createResponse () {
+    if (this.intentName === 'test-intent') {
+      try {
+        let courses = await Course.getCoursesByTerm(this.parameters.Term)
+        let courseList = []
+        courses.forEach(course => {
+          courseList.push(course.courseId)
+        })
+        let responseObject = {
+          'speech': `The courses are as follows: ${courseList.join(', ')}`,
+          'displayText': 'Test'
+        }
+        return responseObject
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+}
+
+module.exports = Response
