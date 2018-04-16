@@ -9,6 +9,7 @@ const keys = require('./config/keys')
 
 const courses = require('./routes/courses')
 const options = require('./routes/options')
+const request = require('./routes/request')
 
 // const Response = require('./controllers/response')
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json())
 /** Routes for our API */
 app.use('/courses', courses)
 app.use('/options', options)
+app.use('/request', request)
 
 /** Starting the server */
 app.listen(keys.express.port, () => logger.log('info', `Server started on port ${keys.express.port}`))
