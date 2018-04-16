@@ -14,14 +14,14 @@ class Response {
   async createResponse () {
     if (this.intentName === 'courses-offered-during-term') {
       try {
-        let courses = await Course.getCoursesByTerm(this.parameters.Term)
+        let courses = await Course.getCoursesByTerm(this.parameters.term)
         let courseList = []
         courses.forEach(course => {
           courseList.push(course.courseId)
         })
         let responseObject = {
           'speech': `The courses are as follows: ${courseList.join(', ')}`,
-          'displayText': 'Test'
+          'displayText': `The courses are as follows: ${courseList.join(', ')}`
         }
         return responseObject
       } catch (error) {
