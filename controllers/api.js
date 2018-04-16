@@ -1,11 +1,22 @@
 'use strict'
 
-const sheets = require('../services/sheets')
-const database = require('../services/database')
+const express = require('express')
+const bodyParser = require('body-parser')
 
 const logger = require('../config/logger')
 
+const courses = require('../routes/courses')
+const options = require('../routes/options')
+const request = require('../routes/request')
+
+const sheets = require('../services/sheets')
+const database = require('../services/database')
+
 class API {
+  constructor (port) {
+    this.port = port
+  }
+
   static async updateCache () {
     logger.log('debug', `Database update requested...`)
     try {
@@ -22,6 +33,27 @@ class API {
     } catch (error) {
       throw error
     }
+  }
+
+  async initServer () {
+    /** The express server used to serve the API */
+    const app = express()
+
+    /** Middleware for getting information from a POST request */
+    app.use(bodyParser.json())
+
+    /** Routes for our API */
+    app.use('/courses', courses)
+    app.use('/options', options)
+    app.use('/request', request)
+
+    app.listen(this.port, () => {
+      logger.log('info', `Server started on port ${this.port}`)
+      API.updateCache()
+        .then(() => {
+          logger.log('info', `Initial cache update completed`)
+        })
+    })
   }
 }
 
