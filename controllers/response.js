@@ -12,7 +12,7 @@ class Response {
   }
 
   async createResponse () {
-    if (this.intentName === 'test-intent') {
+    if (this.intentName === 'courses-offered-during-term') {
       try {
         let courses = await Course.getCoursesByTerm(this.parameters.Term)
         let courseList = []
