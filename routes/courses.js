@@ -16,9 +16,8 @@ router.get('/', async (req, res, next) => {
     res.json(courseInfo)
     logger.log('info', 'Fetched information for all courses')
   } catch (error) {
-    logger.log('error', 'An error has occured when fetching all courses')
-    logger.log('error', error)
-    res.status(500).json({msg: `An error has occured while fetching all courses. Please try again later`})
+    req.errorText = 'An error has occured when fetching all courses'
+    next(error)
   }
 })
 
@@ -36,9 +35,8 @@ router.post('/', async (req, res, next) => {
       res.json(courseInfo)
       logger.log('info', `Fetched information for course: ${req.body.course}`)
     } catch (error) {
-      logger.log('error', `An error has occured when fetching specific course: ${req.body.course}`)
-      logger.log('error', error)
-      res.status(500).json({msg: `An error has occured fetching the specified course. Please try again later.`})
+      req.errorText = `An error has occured when fetching specific course: ${req.body.course}`
+      next(error)
     }
   }
 })
@@ -53,9 +51,8 @@ router.get('/term/:term', async (req, res, next) => {
     res.json(courseInfo)
     logger.log('info', `Fetched information for all courses in term: ${req.params.term}`)
   } catch (error) {
-    logger.log('error', `An error has occured when fetching courses from the term: ${req.params.term}`)
-    logger.log('error', error)
-    res.status(500).json({msg: `An error has occured while fetching courses for that term. Please try again later.`})
+    req.errorText = `An error has occured when fetching courses from the term: ${req.params.term}`
+    next(error)
   }
 })
 

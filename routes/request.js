@@ -12,12 +12,10 @@ router.post('/', async (req, res, next) => {
     let response = new Response(req.body.result.source, req.body.result.resolvedQuery, req.body.result.parameters,
       req.body.result.metadata.intentName, req.body.result.contexts)
     let responseObject = await response.createResponse()
-
     res.json(responseObject)
   } catch (error) {
-    logger.log('error', 'An error has occured when fetching results')
-    logger.log('error', error)
-    res.status(500).json({msg: 'An error has occured when fetching results. Please try again later.'})
+    req.errorText = 'An error has occured when creating the response object'
+    next(error)
   }
 })
 

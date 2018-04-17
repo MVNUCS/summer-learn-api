@@ -47,11 +47,27 @@ class API {
     app.use('/options', options)
     app.use('/request', request)
 
+    /** Default route handler */
+    app.get('*', (req, res, next) => {
+      res.json({msg: 'The resource requested does not exist on this server.'})
+    })
+
+    /** Error handler */
+    app.use((err, req, res, next) => {
+      logger.log('error', (req.errorText === undefined ? req.errorText : 'An error has occured'))
+      logger.log('error', err)
+      res.status(500).json({msg: `An error has occured. Please try again later`, text: req.errorText})
+    })
+
     app.listen(this.port, () => {
       logger.log('info', `Server started on port ${this.port}`)
       API.updateCache()
         .then(() => {
           logger.log('info', `Initial cache update completed`)
+        })
+        .catch((err) => {
+          logger.log('error', 'An error has occured during the initial cache update')
+          logger.log('error', err)
         })
     })
   }
