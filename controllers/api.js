@@ -54,7 +54,7 @@ class API {
 
     /** Error handler */
     app.use((err, req, res, next) => {
-      logger.log('error', (req.errorText === undefined ? req.errorText : 'An error has occured'))
+      logger.log('error', (req.errorText === undefined ? 'An error has occured' : req.errorText))
       logger.log('error', err)
       res.status(500).json({msg: `An error has occured. Please try again later`, text: req.errorText})
     })
