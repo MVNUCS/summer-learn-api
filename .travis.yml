@@ -5,3 +5,7 @@ services:
   - mysql
 before_install:
   - mysql -u root --password="" < sql/section.sql
+branches:
+  only:
+  - master
+  - staging
