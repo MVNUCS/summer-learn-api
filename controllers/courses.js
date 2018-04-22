@@ -35,7 +35,7 @@ class Courses {
         if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
           return {msg: `The request did not return any results`}
         }
-        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.registered, e.cap, e.credits))
         return courses
       } catch (error) {
         throw error
@@ -46,7 +46,7 @@ class Courses {
         if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
           return {msg: `The request did not return any results`}
         }
-        return new Course(courseInfo[0].course_id, courseInfo[0].section, courseInfo[0].title, courseInfo[0].term, courseInfo[0].instructor, courseInfo[0].credits)
+        return new Course(courseInfo[0].course_id, courseInfo[0].section, courseInfo[0].title, courseInfo[0].term, courseInfo[0].instructor, courseInfo[0].registered, courseInfo[0].cap, courseInfo[0].credits)
       } catch (error) {
         throw error
       }
@@ -64,7 +64,7 @@ class Courses {
       if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
         return {msg: `The request did not return any results`}
       } else {
-        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.registered, e.cap, e.credits))
         return courses
       }
     } catch (error) {

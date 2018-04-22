@@ -24,7 +24,7 @@ CREATE TABLE sections (
   instructor  VARCHAR(50),
   inst_type   VARCHAR(10),
   registered  NUMERIC,
-  cap         VARCHAR(50),
+  cap         NUMERIC,
   credits     NUMERIC NOT NULL,
   PRIMARY KEY (course_id, section),
   FOREIGN KEY (term) REFERENCES terms(term)
