@@ -2,6 +2,7 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const helmet = require('helmet')
 
 const logger = require('../config/logger')
 
@@ -43,6 +44,9 @@ class API {
 
     /** Middleware for getting information from a POST request */
     app.use(bodyParser.json())
+
+    /** Middleware to set headers to protect Express */
+    app.use(helmet())
 
     /** Middleware to authenticate our users */
     app.use(Auth.authenticate)

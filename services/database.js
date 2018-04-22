@@ -54,13 +54,9 @@ exports.getCourse = function (courseId, sectionId) {
 exports.getAllSectionsOfCourse = function (courseId) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
+      if (err) return reject(err)
       connection.query(queries.getAllSectionsOfCourse, [courseId], (err, results, fields) => {
-        if (err) {
-          return reject(err)
-        }
+        if (err) return reject(err)
         return resolve(results)
       })
       connection.release()
@@ -75,13 +71,9 @@ exports.getAllSectionsOfCourse = function (courseId) {
 exports.getAllCourses = function () {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
+      if (err) return reject(err)
       connection.query(queries.getAllCourses, (err, results, fields) => {
-        if (err) {
-          return reject(err)
-        }
+        if (err) return reject(err)
         return resolve(results)
       })
       connection.release()
@@ -97,13 +89,26 @@ exports.getAllCourses = function () {
 exports.getCoursesByTerm = function (term) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
+      if (err) return reject(err)
       connection.query(queries.getCoursesByTerm, [term], (err, results, fields) => {
-        if (err) {
-          return reject(err)
-        }
+        if (err) return reject(err)
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+/**
+ * Retrieve information about all terms in the database
+ * @returns The term information in JSON format
+ */
+exports.getAllTerms = function () {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err)
+      connection.query(queries.getAllTerms, (err, results, fields) => {
+        if (err) return reject(err)
         return resolve(results)
       })
       connection.release()
@@ -137,13 +142,9 @@ exports.getTerm = function (term) {
 exports.insertCourseInfo = function (info) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
+      if (err) return reject(err)
       connection.query(queries.insertCourseInfo, [info], function (err, results, fields) {
-        if (err) {
-          return reject(err)
-        }
+        if (err) return reject(err)
         return resolve(results)
       })
       connection.release()

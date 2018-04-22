@@ -27,6 +27,11 @@ module.exports = {
     WHERE term = ?
     ORDER BY course_id, section ASC
   `,
+  getAllTerms: `
+    SELECT *
+    FROM terms
+    ORDER BY term ASC
+  `,
   getTerm: `
     SELECT *
     FROM terms

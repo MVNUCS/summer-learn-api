@@ -14,7 +14,7 @@ class Courses {
       if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
         return {msg: `The request did not return any results`}
       } else {
-        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.registered, e.cap, e.credits))
         return courses
       }
     } catch (error) {

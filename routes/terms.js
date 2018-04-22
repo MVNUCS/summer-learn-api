@@ -7,6 +7,22 @@ const logger = require('../config/logger')
 const courses = require('../controllers/courses')
 const terms = require('../controllers/terms')
 
+router.get('/', async (req, res, next) => {
+  try {
+    let termInfo = await terms.getAllTerms()
+    if (termInfo.hasOwnProperty('msg')) {
+      res.status(404).json(termInfo)
+      logger.log('warn', `[${req.username}] Attempted to fetch information about all terms but couldn't find anything`)
+    } else {
+      res.json(termInfo)
+      logger.log('info', `[${req.username}] Successfully fetched information about all terms`)
+    }
+  } catch (error) {
+    req.errorText = `[${req.username}] An error has occured when attempting to fetch information about all terms`
+    next(error)
+  }
+})
+
 router.get('/:term', async (req, res, next) => {
   try {
     let termInfo = await terms.getTerm(req.params.term)
