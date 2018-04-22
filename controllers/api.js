@@ -11,6 +11,7 @@ const request = require('../routes/request')
 
 const sheets = require('../services/sheets')
 const database = require('../services/database')
+const Auth = require('../services/authentication')
 
 class API {
   constructor (port) {
@@ -41,6 +42,9 @@ class API {
 
     /** Middleware for getting information from a POST request */
     app.use(bodyParser.json())
+
+    /** Middleware to authenticate our users */
+    app.use(Auth.authenticate.bind(Auth))
 
     /** Routes for our API */
     app.use('/courses', courses)

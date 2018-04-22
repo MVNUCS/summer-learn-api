@@ -13,9 +13,9 @@ router.get('/', async (req, res, next) => {
   try {
     let courseInfo = await courses.getAllCourses()
     res.json(courseInfo)
-    logger.log('info', 'Successfully fetched information for all courses')
+    logger.log('info', `[${req.username}] Successfully fetched information for all courses`)
   } catch (error) {
-    req.errorText = 'An error has occured when fetching information for all courses'
+    req.errorText = `${req.username}: An error has occured when fetching information for all courses`
     next(error)
   }
 })
@@ -29,13 +29,13 @@ router.get('/:courseId', async (req, res, next) => {
     let courseInfo = await courses.getCourse(req.params.courseId)
     if (courseInfo.hasOwnProperty('msg')) {
       res.status(404).json(courseInfo)
-      logger.log('warn', `Attempted to fetch information for course ${req.params.courseId} but couldn't find anything`)
+      logger.log('warn', `[${req.username}] Attempted to fetch information for course ${req.params.courseId} but couldn't find anything`)
     } else {
       res.json(courseInfo)
-      logger.log('info', `Successfully fetched information for course ${req.params.courseId}`)
+      logger.log('info', `[${req.username}] Successfully fetched information for course ${req.params.courseId}`)
     }
   } catch (error) {
-    req.errorText = `An error has occured when attempting to fetch course ${req.params.CourseId}`
+    req.errorText = `[${req.username}] An error has occured when attempting to fetch course ${req.params.CourseId}`
     next(error)
   }
 })
@@ -50,13 +50,13 @@ router.get('/:courseId/:sectionId', async (req, res, next) => {
     let courseInfo = await courses.getCourse(req.params.courseId, req.params.sectionId)
     if (courseInfo.hasOwnProperty('msg')) {
       res.status(404).json(courseInfo)
-      logger.log('warn', `Attempted to fetch information for course ${req.params.courseId}:${req.params.sectionId} but couldn't find anything`)
+      logger.log('warn', `[${req.username}] Attempted to fetch information for course ${req.params.courseId}:${req.params.sectionId} but couldn't find anything`)
     } else {
       res.json(courseInfo)
-      logger.log('info', `Successfully fetched information for course ${req.params.courseId}:${req.params.sectionId}`)
+      logger.log('info', `[${req.username}] Successfully fetched information for course ${req.params.courseId}:${req.params.sectionId}`)
     }
   } catch (error) {
-    req.errorText = `An error has occured when attempting to fetch course ${req.params.CourseId}:${req.params.sectionId}`
+    req.errorText = `[${req.username}] An error has occured when attempting to fetch course ${req.params.CourseId}:${req.params.sectionId}`
     next(error)
   }
 })
@@ -70,13 +70,13 @@ router.get('/term/:term', async (req, res, next) => {
     let courseInfo = await courses.getCoursesByTerm(req.params.term)
     if (courseInfo.hasOwnProperty('msg')) {
       res.status(404).json(courseInfo)
-      logger.log('warn', `Attempted to fetch information for courses in term ${req.params.term} but couldn't find anything`)
+      logger.log('warn', `[${req.username}] Attempted to fetch information for courses in term ${req.params.term} but couldn't find anything`)
     } else {
       res.json(courseInfo)
-      logger.log('info', `Successfully fetched information for all courses in term ${req.params.term}`)
+      logger.log('info', `[${req.username}] Successfully fetched information for all courses in term ${req.params.term}`)
     }
   } catch (error) {
-    req.errorText = `An error has occured when attempting to fetch courses from the term ${req.params.term}`
+    req.errorText = `[${req.username}] An error has occured when attempting to fetch courses from the term ${req.params.term}`
     next(error)
   }
 })

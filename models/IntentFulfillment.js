@@ -4,9 +4,9 @@
 class IntentFulfillment {
   /**
    * Create a new intent fulfillment
-   * @param {*} fulfillmentText The text to return when the intent is fulfilled
-   * @param {*} fulfillmentError The text to return when the intent fulfillment fails due to the function
-   * @param {*} fulfillmentFunction The function to call when fulfillment requires extra data
+   * @param {string} fulfillmentText The text to return when the intent is fulfilled
+   * @param {string} fulfillmentError The text to return when the intent fulfillment fails due to the function
+   * @param {function} fulfillmentFunction The function to call when fulfillment requires extra data
    */
   constructor (fulfillmentText, fulfillmentError, fulfillmentFunction) {
     this.fulfillmentText = fulfillmentText

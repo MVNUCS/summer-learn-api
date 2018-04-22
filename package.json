@@ -17,6 +17,8 @@
     "express": "^4.16.2",
     "googleapis": "^27.0.0",
     "mysql": "^2.15.0",
+    "passport": "^0.4.0",
+    "passport-localapikey": "^0.0.3",
     "winston": "^2.4.0"
   },
   "devDependencies": {
