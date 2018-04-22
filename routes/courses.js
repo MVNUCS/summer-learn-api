@@ -61,24 +61,4 @@ router.get('/:courseId/:sectionId', async (req, res, next) => {
   }
 })
 
-/**
- * Get courses from a specific term
- * @param {string} term The ID of term
- */
-router.get('/term/:term', async (req, res, next) => {
-  try {
-    let courseInfo = await courses.getCoursesByTerm(req.params.term)
-    if (courseInfo.hasOwnProperty('msg')) {
-      res.status(404).json(courseInfo)
-      logger.log('warn', `[${req.username}] Attempted to fetch information for courses in term ${req.params.term} but couldn't find anything`)
-    } else {
-      res.json(courseInfo)
-      logger.log('info', `[${req.username}] Successfully fetched information for all courses in term ${req.params.term}`)
-    }
-  } catch (error) {
-    req.errorText = `[${req.username}] An error has occured when attempting to fetch courses from the term ${req.params.term}`
-    next(error)
-  }
-})
-
 module.exports = router

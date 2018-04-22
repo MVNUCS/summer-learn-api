@@ -26,5 +26,10 @@ module.exports = {
     FROM sections
     WHERE term = ?
     ORDER BY course_id, section ASC
+  `,
+  getTermDates: `
+    SELECT start_date, end_date
+    FROM terms
+    WHERE term = ?
   `
 }

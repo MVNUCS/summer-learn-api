@@ -71,6 +71,21 @@ class Courses {
       throw error
     }
   }
+
+  /**
+   * Get the dates of the term specified
+   * @param {string} term The ID of the term
+   * @return {Array.string} An array including the start and the end dates of the term
+   */
+  static async getTermDates (term) {
+    try {
+      let dates = await database.getTermDates(term)
+      if (dates.length === 0 || typeof dates === 'undefined') return {msg: `The request did not return any results`}
+      return dates
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 module.exports = Courses

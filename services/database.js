@@ -112,6 +112,24 @@ exports.getCoursesByTerm = function (term) {
 }
 
 /**
+ * Retrieve the dates of the term specified
+ * @param {string} term The ID of the term
+ * @returns The term dates in JSON format
+ */
+exports.getTermDates = function (term) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err)
+      connection.query(queries.getTermDates, [term], (err, results, fields) => {
+        if (err) return reject(err)
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+/**
  * Inserts course info from Google Sheets
  * @param {string} info The course information to insert
  * @returns Whether the operation was successful or not

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const logger = require('../config/logger')
 
 const courses = require('../routes/courses')
+const terms = require('../routes/terms')
 const options = require('../routes/options')
 const request = require('../routes/request')
 
@@ -48,6 +49,7 @@ class API {
 
     /** Routes for our API */
     app.use('/courses', courses)
+    app.use('/terms', terms)
     app.use('/options', options)
     app.use('/request', request)
 

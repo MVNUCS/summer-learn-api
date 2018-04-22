@@ -24,7 +24,8 @@ const logger = new winston.Logger({
  * Log a message using Winston
  * @param {string} level The log level to use when logging the message
  * @param {string} message The message to log
+ * @param {Object} [metadata] Any optional metadata to include in the message
  */
-module.exports.log = function (level, message) {
-  logger.log(level, message)
+module.exports.log = function (level, message, metadata) {
+  (typeof metadata !== 'undefined') ? logger.log(level, message, metadata) : logger.log(level, message)
 }
