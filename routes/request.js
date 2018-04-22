@@ -3,16 +3,16 @@
 const express = require('express')
 const router = express.Router()
 
-// const logger = require('../config/logger')
+const Responses = require('../controllers/responses')
 
-const Response = require('../controllers/response')
-
+/**
+ * Request fulfillment of an intent from Dialogflow
+ */
 router.post('/', async (req, res, next) => {
   try {
-    let response = new Response(req.body.result.source, req.body.result.resolvedQuery, req.body.result.parameters,
-      req.body.result.metadata.intentName, req.body.result.contexts)
-    let responseObject = await response.createResponse()
-    res.json(responseObject)
+    let request = Responses.createRequest(req.body.queryResult.queryText, req.body.queryResult.parameters, req.body.queryResult.intent.displayName)
+    let response = await Responses.createResponse(request)
+    res.json(response)
   } catch (error) {
     req.errorText = 'An error has occured when creating the response object'
     next(error)

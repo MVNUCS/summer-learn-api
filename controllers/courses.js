@@ -1,25 +1,9 @@
 'use strict'
 
 const database = require('../services/database')
-// const logger = require('../config/logger')
+const Course = require('../models/Course')
 
-class Course {
-  constructor (courseId, section, title, term, instructor, credits) {
-    this.courseId = courseId
-    this.section = section
-    this.title = title
-    this.term = term
-    this.instructor = instructor
-    this.credits = credits
-  }
-
-  /**
-   * Test function using class info
-   */
-  speak () {
-    return `${this.courseId}, section ${this.section} is taught by ${this.instructor} in the ${this.term} term`
-  }
-
+class Courses {
   /**
    * Get all courses
    * @return {Array.Course} An array of courses in the cache
@@ -27,8 +11,12 @@ class Course {
   static async getAllCourses () {
     try {
       let courseInfo = await database.getAllCourses()
-      let courses = courseInfo.map(e => new this(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
-      return courses
+      if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
+        return {msg: `The request did not return any results`}
+      } else {
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        return courses
+      }
     } catch (error) {
       throw error
     }
@@ -44,7 +32,10 @@ class Course {
     if (sectionId === undefined) {
       try {
         let courseInfo = await database.getAllSectionsOfCourse(courseId)
-        let courses = courseInfo.map(e => new this(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
+          return {msg: `The request did not return any results`}
+        }
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
         return courses
       } catch (error) {
         throw error
@@ -52,7 +43,10 @@ class Course {
     } else {
       try {
         let courseInfo = await database.getCourse(courseId, sectionId)
-        return new this(courseInfo[0].course_id, courseInfo[0].section, courseInfo[0].title, courseInfo[0].term, courseInfo[0].instructor, courseInfo[0].credits)
+        if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
+          return {msg: `The request did not return any results`}
+        }
+        return new Course(courseInfo[0].course_id, courseInfo[0].section, courseInfo[0].title, courseInfo[0].term, courseInfo[0].instructor, courseInfo[0].credits)
       } catch (error) {
         throw error
       }
@@ -67,12 +61,16 @@ class Course {
   static async getCoursesByTerm (term) {
     try {
       let courseInfo = await database.getCoursesByTerm(term)
-      let courses = courseInfo.map(e => new this(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
-      return courses
+      if (courseInfo.length === 0 || typeof courseInfo === 'undefined') {
+        return {msg: `The request did not return any results`}
+      } else {
+        let courses = courseInfo.map(e => new Course(e.course_id, e.section, e.title, e.term, e.instructor, e.credits))
+        return courses
+      }
     } catch (error) {
       throw error
     }
   }
 }
 
-module.exports = Course
+module.exports = Courses

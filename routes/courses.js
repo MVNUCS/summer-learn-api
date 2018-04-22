@@ -4,40 +4,60 @@ const express = require('express')
 const router = express.Router()
 
 const logger = require('../config/logger')
-
-const Course = require('../controllers/course')
+const courses = require('../controllers/courses')
 
 /**
  * Gets all courses
  */
 router.get('/', async (req, res, next) => {
   try {
-    let courseInfo = await Course.getAllCourses()
+    let courseInfo = await courses.getAllCourses()
     res.json(courseInfo)
-    logger.log('info', 'Fetched information for all courses')
+    logger.log('info', 'Successfully fetched information for all courses')
   } catch (error) {
-    req.errorText = 'An error has occured when fetching all courses'
+    req.errorText = 'An error has occured when fetching information for all courses'
     next(error)
   }
 })
 
 /**
  * Get a specific course
- * @param {string} course The ID of the course
- * @param {string} section The section number
+ * @param {string} courseId The ID of the course
  */
-router.post('/', async (req, res, next) => {
-  if (req.body.course === undefined) {
-    res.status(400).json({msg: 'Please provide either a course id or both a couse id and a section'})
-  } else {
-    try {
-      let courseInfo = await Course.getCourse(req.body.course, req.body.section)
+router.get('/:courseId', async (req, res, next) => {
+  try {
+    let courseInfo = await courses.getCourse(req.params.courseId)
+    if (courseInfo.hasOwnProperty('msg')) {
+      res.status(404).json(courseInfo)
+      logger.log('warn', `Attempted to fetch information for course ${req.params.courseId} but couldn't find anything`)
+    } else {
       res.json(courseInfo)
-      logger.log('info', `Fetched information for course: ${req.body.course}`)
-    } catch (error) {
-      req.errorText = `An error has occured when fetching specific course: ${req.body.course}`
-      next(error)
+      logger.log('info', `Successfully fetched information for course ${req.params.courseId}`)
     }
+  } catch (error) {
+    req.errorText = `An error has occured when attempting to fetch course ${req.params.CourseId}`
+    next(error)
+  }
+})
+
+/**
+ * Get a specific course and section
+ * @param {string} courseId The ID of the course
+ * @param {number} sectionId The ID of the section
+ */
+router.get('/:courseId/:sectionId', async (req, res, next) => {
+  try {
+    let courseInfo = await courses.getCourse(req.params.courseId, req.params.sectionId)
+    if (courseInfo.hasOwnProperty('msg')) {
+      res.status(404).json(courseInfo)
+      logger.log('warn', `Attempted to fetch information for course ${req.params.courseId}:${req.params.sectionId} but couldn't find anything`)
+    } else {
+      res.json(courseInfo)
+      logger.log('info', `Successfully fetched information for course ${req.params.courseId}:${req.params.sectionId}`)
+    }
+  } catch (error) {
+    req.errorText = `An error has occured when attempting to fetch course ${req.params.CourseId}:${req.params.sectionId}`
+    next(error)
   }
 })
 
@@ -47,11 +67,16 @@ router.post('/', async (req, res, next) => {
  */
 router.get('/term/:term', async (req, res, next) => {
   try {
-    let courseInfo = await Course.getCoursesByTerm(req.params.term)
-    res.json(courseInfo)
-    logger.log('info', `Fetched information for all courses in term: ${req.params.term}`)
+    let courseInfo = await courses.getCoursesByTerm(req.params.term)
+    if (courseInfo.hasOwnProperty('msg')) {
+      res.status(404).json(courseInfo)
+      logger.log('warn', `Attempted to fetch information for courses in term ${req.params.term} but couldn't find anything`)
+    } else {
+      res.json(courseInfo)
+      logger.log('info', `Successfully fetched information for all courses in term ${req.params.term}`)
+    }
   } catch (error) {
-    req.errorText = `An error has occured when fetching courses from the term: ${req.params.term}`
+    req.errorText = `An error has occured when attempting to fetch courses from the term ${req.params.term}`
     next(error)
   }
 })

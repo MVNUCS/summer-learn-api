@@ -49,7 +49,7 @@ class API {
 
     /** Default route handler */
     app.get('*', (req, res, next) => {
-      res.json({msg: 'The resource requested does not exist on this server.'})
+      res.json({msg: 'The resource requested does not exist'})
     })
 
     /** Error handler */
