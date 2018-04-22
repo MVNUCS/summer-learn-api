@@ -112,15 +112,15 @@ exports.getCoursesByTerm = function (term) {
 }
 
 /**
- * Retrieve the dates of the term specified
+ * Retrieve information about the specified term
  * @param {string} term The ID of the term
- * @returns The term dates in JSON format
+ * @returns The term information in JSON format
  */
-exports.getTermDates = function (term) {
+exports.getTerm = function (term) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err)
-      connection.query(queries.getTermDates, [term], (err, results, fields) => {
+      connection.query(queries.getTerm, [term], (err, results, fields) => {
         if (err) return reject(err)
         return resolve(results)
       })

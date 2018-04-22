@@ -45,7 +45,7 @@ class API {
     app.use(bodyParser.json())
 
     /** Middleware to authenticate our users */
-    app.use(Auth.authenticate.bind(Auth))
+    app.use(Auth.authenticate)
 
     /** Routes for our API */
     app.use('/courses', courses)
