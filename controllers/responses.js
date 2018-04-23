@@ -8,7 +8,9 @@ const IntentFulfillment = require('../models/IntentFulfillment')
 
 /** This object stores our intents. TODO: Replace with a dynamic solution */
 const INTENTS = {
-  coursesOfferedDuringTerm: 'courses-offered-during-term'
+  coursesOfferedDuringTerm: 'courses-offered-during-term',
+  whatIsTheCostPerCreditHour: 'what-is-cost-per-credit',
+  canSummerLearnCoursesBeTransfered: 'can-transfer-summer-learn-courses'
 }
 Object.freeze(INTENTS)
 
@@ -40,6 +42,10 @@ class Responses {
           courseInfo.forEach(course => courseList.push(course.courseId))
           return courseList.join(', ')
         })
+      case INTENTS.whatIsTheCostPerCreditHour:
+        return new IntentFulfillment(`The cost per credit hour is $200`)
+      case INTENTS.canSummerLearnCoursesBeTransfered:
+        return new IntentFulfillment(`Yes. MVNU makes the process real simple to request a transcript once your grades are posted for the Summer Learn courses.`)
       default:
         return new IntentFulfillment(`Sorry, I didn't understand the request, please try again later.`)
     }
@@ -51,7 +57,7 @@ class Responses {
    */
   static async createResponse (request) {
     let fulfillment = this.getIntentFulfillment(request.intent)
-    if (fulfillment.hasFunction) {
+    if (fulfillment.hasFunction()) {
       let fulfillmentData = await fulfillment.fulfillmentFunction(request)
       if (fulfillmentData === '') return new IntentResponse(fulfillment.fulfillmentError)
       return new IntentResponse(fulfillment.fulfillmentText.replace('#@#', fulfillmentData))
