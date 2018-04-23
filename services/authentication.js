@@ -22,7 +22,7 @@ const checkAPIKey = function (key) {
 }
 
 exports.authenticate = function (req, res, next) {
-  let key = req.get('X-API-AUTH')
+  let key = req.get('X-API-KEY')
   let authorizedParty = checkAPIKey(key)
   if (authorizedParty !== 'denied') {
     req.username = authorizedParty
@@ -30,6 +30,6 @@ exports.authenticate = function (req, res, next) {
   } else {
     let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     logger.log('warn', `[${ip}] Attempt to access endpoint without being authenticated`)
-    res.status(404).json({msg: `The resource requested does not exist`})
+    res.status(401).json({msg: `The resource requested does not exist`})
   }
 }
