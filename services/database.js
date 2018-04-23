@@ -12,8 +12,11 @@ const pool = mysql.createPool(keys.database)
  * @returns Health status of either green or red
  */
 exports.checkHealth = function () {
-  logger.log('info', 'checkHealth()')
   return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err)
+      return resolve({msg: `Connection to database is successful`})
+    })
   })
 }
 

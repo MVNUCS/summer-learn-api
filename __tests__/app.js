@@ -1,4 +1,4 @@
-/* global describe it expect  */
+/* global describe test expect  */
 'use strict'
 
 process.env.LOGGING_LEVEL = 'error'
@@ -11,7 +11,7 @@ const keys = require('../config/keys')
  * These tests make sure the general API is working
  */
 describe('General API', () => {
-  it('should return a 401 when no API Key is provided', () => {
+  test('should return a 401 when no API Key is provided', () => {
     expect.assertions(2)
     return request(app).get('/')
       .expect(401)
@@ -21,7 +21,7 @@ describe('General API', () => {
       })
   })
 
-  it('should return a 404 when an API Key is provided but the route is invalid', () => {
+  test('should return a 404 when an API Key is provided but the route is invalid', () => {
     expect.assertions(2)
     return request(app).get('/')
       .set('X-API-KEY', keys.jest.testKey)

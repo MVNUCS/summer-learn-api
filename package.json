@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "jest --forceExit"
+    "test": "jest --forceExit --verbose"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
