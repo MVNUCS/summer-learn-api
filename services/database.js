@@ -1,6 +1,5 @@
 'use strict'
 
-const logger = require('../config/logger')
 const keys = require('../config/keys')
 const queries = require('../config/queries')
 const mysql = require('mysql')

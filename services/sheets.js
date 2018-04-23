@@ -4,7 +4,6 @@ const {google} = require('googleapis')
 const OAuth2 = google.auth.OAuth2
 const sheets = google.sheets('v4')
 
-const logger = require('../config/logger')
 const keys = require('../config/keys')
 
 /** Create OAuth2 Client for authenticating to Google's APIs */
@@ -29,8 +28,14 @@ authClient.setCredentials({
  * @returns Health status of either green or red
  */
 exports.checkHealth = function () {
-  logger.log('info', 'checkHealth()')
   return new Promise((resolve, reject) => {
+    sheets.spreadsheets.values.get({
+      spreadsheetId: `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms`,
+      range: `Class Data!A1`
+    }, (err, response) => {
+      if (err) return reject(err)
+      return resolve({msg: `Connection to Google Sheets is successful`})
+    })
   })
 }
 

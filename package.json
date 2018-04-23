@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "jest --forceExit --verbose"
+    "test": "jest --forceExit"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -17,6 +17,7 @@
     "express": "^4.16.2",
     "googleapis": "^27.0.0",
     "helmet": "^3.12.0",
+    "jest-runner-standard": "^0.0.12",
     "mysql": "^2.15.0",
     "winston": "^2.4.0"
   },
