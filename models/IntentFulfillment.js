@@ -18,7 +18,12 @@ class IntentFulfillment {
    * Check to see if the fulfillment has a fulfillment function
    * @returns {boolean} Whether the fulfillment has a function or not
    */
-  hasFunction () { return (typeof this.fulfillmentFunction === 'undefined' || this.fulfillmentFunction === null) }
+  hasFunction () {
+    if (typeof this.fulfillmentFunction === 'undefined' || this.fulfillmentFunction === null) {
+      return false
+    }
+    return true
+  }
 }
 
 module.exports = IntentFulfillment
