@@ -1,11 +1,11 @@
 /* global describe it expect  */
 'use strict'
 
-require('dotenv').config()
 process.env.LOGGING_LEVEL = 'error'
 const request = require('supertest')
 
 const app = require('../app')
+const keys = require('../config/keys')
 
 /**
  * These tests make sure the general API is working
@@ -24,7 +24,7 @@ describe('General API', () => {
   it('should return a 404 when an API Key is provided but the route is invalid', () => {
     expect.assertions(2)
     return request(app).get('/')
-      .set('X-API-KEY', 'WyE5lpxEVh7jSbwkUO6WRsG2zTzy7sDl')
+      .set('X-API-KEY', keys.jest.testKey)
       .expect(404)
       .then((res) => {
         expect(typeof res.body.msg).toBe('string')

@@ -1,17 +1,17 @@
 'use strict'
 
 /** Winston */
-module.exports.logging = {
+exports.logging = {
   loglevel: process.env.LOGGING_LEVEL
 }
 
 /** Express */
-module.exports.express = {
+exports.express = {
   port: process.env.PORT
 }
 
 /** MySQL */
-module.exports.database = {
+exports.database = {
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
@@ -19,7 +19,7 @@ module.exports.database = {
 }
 
 /** Google Sheets */
-module.exports.sheets = {
+exports.sheets = {
   spreadsheetId: process.env.SPREADSHEET_ID,
   spreadsheetRange: process.env.SPREADSHEET_RANGE,
   clientId: process.env.CLIENT_ID,
@@ -28,4 +28,9 @@ module.exports.sheets = {
   accessToken: process.env.ACCESS_TOKEN,
   refreshToken: process.env.REFRESH_TOKEN,
   expiryDate: process.env.EXPIRY_DATE
+}
+
+/** Jest */
+exports.jest = {
+  testKey: process.env.TEST_KEY
 }

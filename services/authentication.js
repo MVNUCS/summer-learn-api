@@ -2,17 +2,27 @@
 
 const fs = require('fs')
 const logger = require('../config/logger')
+const keys = require('../config/keys')
 
 let API_KEYS
 
 /** Load our API keys for use */
-try {
-  let apiKeys = fs.readFileSync('apikeys.json')
-  API_KEYS = JSON.parse(apiKeys)
+if (fs.existsSync('apikeys.json')) {
+  try {
+    let apiKeys = fs.readFileSync('apikeys.json')
+    API_KEYS = JSON.parse(apiKeys)
+    Object.freeze(API_KEYS)
+  } catch (error) {
+    logger.log('error', 'An error has occured during the loading of API Keys.')
+    logger.log('error', error)
+  }
+} else {
+  /** For testing only */
+  API_KEYS = [{
+    'owner': 'Test',
+    'key': keys.jest.testKey
+  }]
   Object.freeze(API_KEYS)
-} catch (error) {
-  logger.log('error', 'An error has occured during the loading of API Keys.')
-  logger.log('error', error)
 }
 
 const checkAPIKey = function (key) {
