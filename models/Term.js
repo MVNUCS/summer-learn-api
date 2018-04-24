@@ -7,11 +7,13 @@ class Term {
    * @param {string} term The ID of the term, formatted like A6
    * @param {Date} startDate The section number of the course
    * @param {Date} endDate The course title
+   * @param {string} deadline The deadline for registration for the term
    */
-  constructor (term, startDate, endDate) {
+  constructor (term, startDate, endDate, deadline) {
     this.term = term
     this.startDate = startDate
     this.endDate = endDate
+    this.deadline = deadline
   }
 
   /**

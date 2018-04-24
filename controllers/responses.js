@@ -11,7 +11,8 @@ const IntentFulfillment = require('../models/IntentFulfillment')
 const INTENTS = {
   coursesOfferedDuringTerm: 'coursesOfferedDuringTerm',
   whatIsTheCostPerCreditHour: 'whatIsTheCostPerCreditHour',
-  canSummerLearnCoursesBeTransfered: 'canSummerLearnCoursesBeTransfered'
+  canSummerLearnCoursesBeTransferred: 'canSummerLearnCoursesBeTransferred',
+  whatIsTheRegistrationDeadline: 'whatIsTheRegistrationDeadline'
 }
 Object.freeze(INTENTS)
 
@@ -52,6 +53,10 @@ class Responses {
           let courseList = []
           courseInfo.forEach(course => courseList.push(course.title))
           return courseList.join(', ')
+        }
+      case INTENTS.whatIsTheRegistrationDeadline:
+        return async (request) => {
+
         }
     }
   }

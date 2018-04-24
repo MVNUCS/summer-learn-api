@@ -13,7 +13,7 @@ class Terms {
     try {
       let termInfo = await database.getTerm(term)
       if (termInfo.length === 0 || typeof termInfo === 'undefined') return {msg: `The request did not return any results`}
-      return new Term(termInfo[0].term, new Date(termInfo[0].start_date), new Date(termInfo[0].end_date))
+      return new Term(termInfo[0].term, new Date(termInfo[0].start_date), new Date(termInfo[0].end_date), termInfo[0].deadline)
     } catch (error) {
       throw error
     }
@@ -28,7 +28,7 @@ class Terms {
     try {
       let termInfo = await database.getAllTerms()
       if (termInfo.length === 0 || typeof termInfo === 'undefined') return {msg: `The request did not return any results`}
-      let terms = termInfo.map(e => new Term(e.term, new Date(e.start_date), new Date(e.end_date)))
+      let terms = termInfo.map(e => new Term(e.term, new Date(e.start_date), new Date(e.end_date), e.deadline))
       return terms
     } catch (error) {
       throw error
