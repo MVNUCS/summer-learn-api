@@ -145,7 +145,20 @@ exports.insertCourseInfo = function (info) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err)
-      connection.query(queries.insertCourseInfo, [info], function (err, results, fields) {
+      connection.query(queries.insertCourseInfo, [info], (err, results, fields) => {
+        if (err) return reject(err)
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+exports.getIntent = function (intent) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err)
+      connection.query(queries.getIntent, [intent], (err, results, fields) => {
         if (err) return reject(err)
         return resolve(results)
       })

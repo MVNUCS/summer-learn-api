@@ -4,7 +4,7 @@ node_js:
 services:
   - mysql
 before_install:
-  - mysql -u root --password="" < sql/section.sql
+  - mysql -u root --password="" < sql/setup.sql
 branches:
   only:
   - master

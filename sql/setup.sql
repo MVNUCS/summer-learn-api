@@ -29,3 +29,16 @@ CREATE TABLE sections (
   PRIMARY KEY (course_id, section),
   FOREIGN KEY (term) REFERENCES terms(term)
 );
+
+CREATE TABLE fulfillment (
+  intent  VARCHAR(50),
+  fulfillmentText VARCHAR(500),
+  fulfillmentError  VARCHAR(500),
+  fulfillmentFunction NUMERIC,
+  PRIMARY KEY (intent)
+);
+
+INSERT INTO fulfillment (intent, fulfillmentText, fulfillmentError, fulfillmentFunction) VALUES
+  ('coursesOfferedDuringTerm', 'The courses are as follows: #@#', 'It seems that there are not any courses offered during that term.', 1),
+  ('canSummerLearnCoursesBeTransferred', 'Yes. MVNU makes the process very simple to request a transcript once your grades are posted for the Summer Learn courses.', NULL, 0),
+  ('whatIsTheCostPerCreditHour', 'The cost per credit hour is $200', NULL, 0);

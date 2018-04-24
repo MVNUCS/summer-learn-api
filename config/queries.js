@@ -36,5 +36,10 @@ module.exports = {
     SELECT *
     FROM terms
     WHERE term = ?
+  `,
+  getIntent: `
+    SELECT *
+    FROM fulfillment
+    WHERE intent = ?
   `
 }

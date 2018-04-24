@@ -1,6 +1,7 @@
 'use strict'
 
 const courses = require('./courses')
+const database = require('../services/database')
 
 const IntentRequest = require('../models/IntentRequest')
 const IntentResponse = require('../models/IntentResponse')
@@ -8,9 +9,9 @@ const IntentFulfillment = require('../models/IntentFulfillment')
 
 /** This object stores our intents. TODO: Replace with a dynamic solution */
 const INTENTS = {
-  coursesOfferedDuringTerm: 'courses-offered-during-term',
-  whatIsTheCostPerCreditHour: 'what-is-cost-per-credit',
-  canSummerLearnCoursesBeTransfered: 'can-transfer-summer-learn-courses'
+  coursesOfferedDuringTerm: 'coursesOfferedDuringTerm',
+  whatIsTheCostPerCreditHour: 'whatIsTheCostPerCreditHour',
+  canSummerLearnCoursesBeTransfered: 'canSummerLearnCoursesBeTransfered'
 }
 Object.freeze(INTENTS)
 
@@ -28,26 +29,30 @@ class Responses {
   }
 
   /**
-   * Get the correct fulfillment for the intent given. TODO: Replace switch statement with a dynamic solution
+   * Get the correct intent fulfillment from the database
    * @param {string} intent The intent to fulfill
-   * @returns {IntentFulfillment} The intent fulfillment resolved from the requested intent
+   * @returns {IntentFulfillment} The fulfillment of the intent
    */
-  static getIntentFulfillment (intent) {
+  static async getIntentFulfillment (intent) {
+    let intentInfo = await database.getIntent(intent)
+    return new IntentFulfillment(intentInfo[0].fulfillmentText, intentInfo[0].fulfillmentError, (intentInfo[0].fulfillmentFunction === 1) ? this.getFulfillmentFunction(intentInfo[0].intent) : null)
+  }
+
+  /**
+   * Get the correct fulfillment function for the intent given.
+   * @param {string} intent The intent to fulfill
+   * @returns {IntentFulfillment} The fulfillment function for the given intent
+   */
+  static getFulfillmentFunction (intent) {
     switch (intent) {
       case INTENTS.coursesOfferedDuringTerm:
-        return new IntentFulfillment(`The courses are as follows: #@#`, `It seems that there aren't any courses offered during that term!`, async (request) => {
+        return async (request) => {
           let courseInfo = await courses.getCoursesByTerm(request.parameters.term)
           if (courseInfo.length === 0 || typeof courseInfo === 'undefined') return ''
           let courseList = []
-          courseInfo.forEach(course => courseList.push(course.courseId))
+          courseInfo.forEach(course => courseList.push(course.title))
           return courseList.join(', ')
-        })
-      case INTENTS.whatIsTheCostPerCreditHour:
-        return new IntentFulfillment(`The cost per credit hour is $200`)
-      case INTENTS.canSummerLearnCoursesBeTransfered:
-        return new IntentFulfillment(`Yes. MVNU makes the process real simple to request a transcript once your grades are posted for the Summer Learn courses.`)
-      default:
-        return new IntentFulfillment(`Sorry, I didn't understand the request, please try again later.`)
+        }
     }
   }
 
@@ -56,7 +61,7 @@ class Responses {
    * @param {IntentRequest} request The request used to create a response
    */
   static async createResponse (request) {
-    let fulfillment = this.getIntentFulfillment(request.intent)
+    let fulfillment = await this.getIntentFulfillment(request.intent)
     if (fulfillment.hasFunction()) {
       let fulfillmentData = await fulfillment.fulfillmentFunction(request)
       if (fulfillmentData === '') return new IntentResponse(fulfillment.fulfillmentError)
