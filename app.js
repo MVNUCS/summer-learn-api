@@ -25,6 +25,9 @@ app.use(bodyParser.json())
 /** Middleware to set headers to protect Express */
 app.use(helmet())
 
+/** HTTP Logging */
+app.use(logger.morgan)
+
 /** Middleware to authenticate our users */
 app.use(Auth.authenticate)
 

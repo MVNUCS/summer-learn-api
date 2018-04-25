@@ -1,6 +1,10 @@
 'use strict'
 
 const winston = require('winston')
+const morgan = require('morgan')
+const fs = require('fs')
+const path = require('path')
+
 const config = require('./keys')
 
 /**
@@ -26,6 +30,11 @@ const logger = new winston.Logger({
  * @param {string} message The message to log
  * @param {Object} [metadata] Any optional metadata to include in the message
  */
-module.exports.log = function (level, message, metadata) {
+exports.log = function (level, message, metadata) {
   (typeof metadata !== 'undefined') ? logger.log(level, message, metadata) : logger.log(level, message)
 }
+
+/**
+ * Setup Morgan for Express HTTP logging
+ */
+exports.morgan = morgan('combined', {stream: fs.createWriteStream(path.join(__dirname, '../access.log'), {flags: 'a'})})
