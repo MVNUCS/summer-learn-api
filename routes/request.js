@@ -12,6 +12,7 @@ const Responses = require('../controllers/responses')
  */
 router.post('/', async (req, res, next) => {
   try {
+    logger.log('debug', `[${req.username}] Attempting to respond to query "${req.body.queryResult.queryText}" ...`)
     let request = Responses.createRequest(req.body.queryResult.queryText, req.body.queryResult.parameters, req.body.queryResult.intent.displayName)
     let response = await Responses.createResponse(request)
     res.json(response)

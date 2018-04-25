@@ -13,7 +13,7 @@ const terms = require('./routes/terms')
 const options = require('./routes/options')
 const request = require('./routes/request')
 
-const Auth = require('./services/authentication')
+const auth = require('./services/authentication')
 const api = require('./controllers/api')
 
 /** The express server used to serve the API */
@@ -29,7 +29,7 @@ app.use(helmet())
 app.use(logger.morgan)
 
 /** Middleware to authenticate our users */
-app.use(Auth.authenticate)
+app.use(auth.authenticate)
 
 /** Routes for our API */
 app.use('/courses', courses)
@@ -51,6 +51,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({msg: `An error has occured. Please try again later`, text: req.errorText})
 })
 
+/** Start the API */
 app.listen(keys.express.port, () => {
   logger.log('info', `Server started on port ${keys.express.port}`)
   api.updateCache()

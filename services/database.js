@@ -14,6 +14,7 @@ exports.checkHealth = function () {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err)
+      connection.release()
       return resolve({msg: `Connection to database is successful`})
     })
   })
@@ -154,6 +155,11 @@ exports.insertCourseInfo = function (info) {
   })
 }
 
+/**
+ * Retrieve information about the specified intent
+ * @param {string} intent The intent for which to get fulfillment
+ * @returns The intent information in JSON format
+ */
 exports.getIntent = function (intent) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
