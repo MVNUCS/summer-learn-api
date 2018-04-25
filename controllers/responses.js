@@ -8,15 +8,6 @@ const IntentRequest = require('../models/IntentRequest')
 const IntentResponse = require('../models/IntentResponse')
 const IntentFulfillment = require('../models/IntentFulfillment')
 
-/** This object stores our intents. TODO: Replace with a dynamic solution */
-const INTENTS = {
-  coursesOfferedDuringTerm: 'coursesOfferedDuringTerm',
-  whatIsTheCostPerCreditHour: 'whatIsTheCostPerCreditHour',
-  canSummerLearnCoursesBeTransferred: 'canSummerLearnCoursesBeTransferred',
-  whenIsTheRegistrationDeadline: 'whenIsTheRegistrationDeadline'
-}
-Object.freeze(INTENTS)
-
 /** Class that defines responses that will be sent to Dialogflow */
 class Responses {
   /**
@@ -47,7 +38,7 @@ class Responses {
    */
   static getFulfillmentFunction (intent) {
     switch (intent) {
-      case INTENTS.coursesOfferedDuringTerm:
+      case 'coursesOfferedDuringTerm':
         return async (request) => {
           let courseInfo = await courses.getCoursesByTerm(request.parameters.term)
           if (courseInfo.hasOwnProperty('msg') || typeof courseInfo === 'undefined') return ''
@@ -55,12 +46,19 @@ class Responses {
           courseInfo.forEach(course => courseList.push(course.title))
           return courseList.join(', ')
         }
-      case INTENTS.whenIsTheRegistrationDeadline:
+      case 'whenIsTheRegistrationDeadline':
         return async (request) => {
           let termInfo = await terms.getTerm(request.parameters.term)
-          console.log(termInfo)
           if (termInfo.hasOwnProperty('msg') || typeof termInfo === 'undefined') return ''
           return termInfo.deadline
+        }
+      case 'completeListOfCoursesOffered':
+        return async (request) => {
+          let courseInfo = await courses.getAllCourses()
+          if (courseInfo.hasOwnProperty('msg') || typeof courseInfo === 'undefined') return ''
+          let courseList = []
+          courseInfo.forEach(course => courseList.push(`${course.title} in the ${course.term} term`))
+          return courseList.join(', ')
         }
     }
   }
