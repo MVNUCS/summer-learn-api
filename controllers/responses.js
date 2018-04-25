@@ -1,6 +1,7 @@
 'use strict'
 
 const courses = require('./courses')
+const terms = require('./terms')
 const database = require('../services/database')
 
 const IntentRequest = require('../models/IntentRequest')
@@ -12,7 +13,7 @@ const INTENTS = {
   coursesOfferedDuringTerm: 'coursesOfferedDuringTerm',
   whatIsTheCostPerCreditHour: 'whatIsTheCostPerCreditHour',
   canSummerLearnCoursesBeTransferred: 'canSummerLearnCoursesBeTransferred',
-  whatIsTheRegistrationDeadline: 'whatIsTheRegistrationDeadline'
+  whenIsTheRegistrationDeadline: 'whenIsTheRegistrationDeadline'
 }
 Object.freeze(INTENTS)
 
@@ -49,14 +50,17 @@ class Responses {
       case INTENTS.coursesOfferedDuringTerm:
         return async (request) => {
           let courseInfo = await courses.getCoursesByTerm(request.parameters.term)
-          if (courseInfo.length === 0 || typeof courseInfo === 'undefined') return ''
+          if (courseInfo.hasOwnProperty('msg') || typeof courseInfo === 'undefined') return ''
           let courseList = []
           courseInfo.forEach(course => courseList.push(course.title))
           return courseList.join(', ')
         }
-      case INTENTS.whatIsTheRegistrationDeadline:
+      case INTENTS.whenIsTheRegistrationDeadline:
         return async (request) => {
-
+          let termInfo = await terms.getTerm(request.parameters.term)
+          console.log(termInfo)
+          if (termInfo.hasOwnProperty('msg') || typeof termInfo === 'undefined') return ''
+          return termInfo.deadline
         }
     }
   }

@@ -43,4 +43,4 @@ INSERT INTO fulfillment (intent, fulfillmentText, fulfillmentError, fulfillmentF
   ('coursesOfferedDuringTerm', 'The courses are as follows: #@#', 'It seems that there are not any courses offered during that term.', 1),
   ('canSummerLearnCoursesBeTransferred', 'Yes. MVNU makes the process very simple to request a transcript once your grades are posted for the Summer Learn courses.', NULL, 0),
   ('whatIsTheCostPerCreditHour', 'The cost per credit hour is $200', NULL, 0),
-  ('whatIsTheRegistrationDeadline', 'The registration deadline for that term is  #@#', 'It seems that there is not a registration deadline for that term!', 1);
+  ('whenIsTheRegistrationDeadline', 'The registration deadline for that term is  #@#', 'It seems that there is not a registration deadline for that term!', 1);
