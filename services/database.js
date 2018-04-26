@@ -4,7 +4,12 @@ const keys = require('../config/keys')
 const queries = require('../config/queries')
 const mysql = require('mysql')
 
-const pool = mysql.createPool(keys.database)
+let pool = mysql.createPool(keys.database)
+
+/**
+ * Create a new connection pool if it gets closed for some reason
+ */
+exports.createPool = function () { pool = mysql.createPool(keys.database) }
 
 /**
  * Returns whether the connection to the database is successful
