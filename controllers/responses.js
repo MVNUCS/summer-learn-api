@@ -1,5 +1,7 @@
 'use strict'
 
+const moment = require('moment')
+
 const courses = require('./courses')
 const terms = require('./terms')
 const database = require('../services/database')
@@ -59,6 +61,17 @@ class Responses {
           let courseList = []
           courseInfo.forEach(course => courseList.push(`${course.title} in the ${course.term} term`))
           return courseList.join(', ')
+        }
+      case 'whatAreTheTermDates':
+        return async (request) => {
+          let termInfo = await terms.getAllTerms()
+          if (termInfo.hasOwnProperty('msg') || typeof termInfo === 'undefined') return ''
+          let dateFormat = 'MMMM Do YYYY'
+          let aTerms = termInfo.filter(term => (term.term).substring(0, 1) === 'A')
+          let bTerms = termInfo.filter(term => (term.term).substring(0, 1) === 'B')
+          let cTerms = termInfo.filter(term => (term.term).substring(0, 1) === 'C')
+          function termNames (terms) { return (terms.length === 2) ? `${terms[0].term} and ${terms[1].term} terms` : `${terms[0].term} term` }
+          return `The ${termNames(aTerms)} start on ${moment(aTerms[0].startDate).format(dateFormat)} and end on ${moment(aTerms[0].endDate).format(dateFormat)}. The ${termNames(bTerms)} start on ${moment(bTerms[0].startDate).format(dateFormat)} and end on ${moment(bTerms[0].endDate).format(dateFormat)}. The ${termNames(cTerms)} starts on ${moment(cTerms[0].startDate).format(dateFormat)} and ends on ${moment(cTerms[0].endDate).format(dateFormat)}.`
         }
     }
   }

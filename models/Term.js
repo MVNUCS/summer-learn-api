@@ -5,8 +5,8 @@ class Term {
   /**
    * Create a new term object
    * @param {string} term The ID of the term, formatted like A6
-   * @param {Date} startDate The section number of the course
-   * @param {Date} endDate The course title
+   * @param {Date} startDate The start date of the course
+   * @param {Date} endDate The end date of the course
    * @param {string} deadline The deadline for registration for the term
    */
   constructor (term, startDate, endDate, deadline) {
