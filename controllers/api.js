@@ -20,8 +20,8 @@ exports.updateCache = async function () {
     intentInfo.values.forEach(intent => intents.push([intent[0], intent[1], intent[2], Number(intent[3])]))
     courseInfo.values.forEach((e) => courses.push([e[0].trim(), Number(e[1]), e[2].trim(), e[3].trim(), e[5].trim(), e[6].trim(), Number(e[7]), Number(e[8]), Number((e[0].trim().substring(e[0].trim().length - 1)))]))
     let courseResult = await database.insertCourseInfo(courses)
-    let intentResult = await database.insertIntentInfo(intents)
     logger.log('debug', `Inserted courses into database with ${courseResult.affectedRows} rows affected`)
+    let intentResult = await database.insertIntentInfo(intents)
     logger.log('debug', `Inserted intents into database with ${intentResult.affectedRows} rows affected`)
     return {msg: `Database insert successful with ${courseResult.affectedRows + intentResult.affectedRows} total rows affected`}
   } catch (error) {
