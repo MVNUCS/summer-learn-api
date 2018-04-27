@@ -13,14 +13,17 @@ exports.updateCache = async function () {
   try {
     let courseInfo = await sheets.getCourseInfo()
     logger.log('debug', `Got course info from Sheets...`)
+    let intentInfo = await sheets.getIntentInfo()
+    logger.log('debug', `Got intent info from Sheets...`)
     let courses = []
-    courseInfo.values.forEach((e) => {
-      let course = [e[0].trim(), Number(e[1]), e[2].trim(), e[3].trim(), e[5].trim(), e[6].trim(), Number(e[7]), Number(e[8]), Number((e[0].trim().substring(e[0].trim().length - 1)))]
-      courses.push(course)
-    })
-    let result = await database.insertCourseInfo(courses)
-    logger.log('debug', `Database operation complete with ${result.affectedRows} rows affected`)
-    return result
+    let intents = []
+    intentInfo.values.forEach(intent => intents.push([intent[0], intent[1], intent[2], Number(intent[3])]))
+    courseInfo.values.forEach((e) => courses.push([e[0].trim(), Number(e[1]), e[2].trim(), e[3].trim(), e[5].trim(), e[6].trim(), Number(e[7]), Number(e[8]), Number((e[0].trim().substring(e[0].trim().length - 1)))]))
+    let courseResult = await database.insertCourseInfo(courses)
+    let intentResult = await database.insertIntentInfo(intents)
+    logger.log('debug', `Inserted courses into database with ${courseResult.affectedRows} rows affected`)
+    logger.log('debug', `Inserted intents into database with ${intentResult.affectedRows} rows affected`)
+    return {msg: `Database insert successful with ${courseResult.affectedRows + intentResult.affectedRows} total rows affected`}
   } catch (error) {
     throw error
   }

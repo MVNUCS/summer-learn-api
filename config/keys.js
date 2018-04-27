@@ -20,8 +20,10 @@ exports.database = {
 
 /** Google Sheets */
 exports.sheets = {
-  spreadsheetId: process.env.SPREADSHEET_ID,
-  spreadsheetRange: process.env.SPREADSHEET_RANGE,
+  sectionSpreadsheetId: process.env.SECTION_SPREADSHEET_ID,
+  sectionSpreadsheetRange: process.env.SECTION_SPREADSHEET_RANGE,
+  intentSpreadsheetId: process.env.INTENT_SPREADSHEET_ID,
+  intentSpreadsheetRange: process.env.INTENT_SPREADSHEET_RANGE,
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectURL: process.env.REDIRECT_URL,

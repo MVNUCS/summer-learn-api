@@ -143,6 +143,24 @@ exports.getTerm = function (term) {
 }
 
 /**
+ * Retrieve information about the specified intent
+ * @param {string} intent The intent for which to get fulfillment
+ * @returns The intent information in JSON format
+ */
+exports.getIntent = function (intent) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err)
+      connection.query(queries.getIntent, [intent], (err, results, fields) => {
+        if (err) return reject(err)
+        return resolve(results)
+      })
+      connection.release()
+    })
+  })
+}
+
+/**
  * Inserts course info from Google Sheets
  * @param {string} info The course information to insert
  * @returns Whether the operation was successful or not
@@ -161,15 +179,15 @@ exports.insertCourseInfo = function (info) {
 }
 
 /**
- * Retrieve information about the specified intent
- * @param {string} intent The intent for which to get fulfillment
- * @returns The intent information in JSON format
+ * Inserts intent info from Google Sheets
+ * @param {string} info The intent information to insert
+ * @returns Whether the operation was successful or not
  */
-exports.getIntent = function (intent) {
+exports.insertIntentInfo = function (info) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err)
-      connection.query(queries.getIntent, [intent], (err, results, fields) => {
+      connection.query(queries.insertIntentInfo, [info], (err, results, fields) => {
         if (err) return reject(err)
         return resolve(results)
       })

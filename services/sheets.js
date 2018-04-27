@@ -46,8 +46,24 @@ exports.checkHealth = function () {
 exports.getCourseInfo = function () {
   return new Promise((resolve, reject) => {
     sheets.spreadsheets.values.get({
-      spreadsheetId: keys.sheets.spreadsheetId,
-      range: keys.sheets.spreadsheetRange
+      spreadsheetId: keys.sheets.sectionSpreadsheetId,
+      range: keys.sheets.sectionSpreadsheetRange
+    }, (err, response) => {
+      if (err) return reject(err)
+      return resolve(response.data)
+    })
+  })
+}
+
+/**
+ * Returns info for intent fulfillment
+ * @returns A JSON array of intent info
+ */
+exports.getIntentInfo = function () {
+  return new Promise((resolve, reject) => {
+    sheets.spreadsheets.values.get({
+      spreadsheetId: keys.sheets.intentSpreadsheetId,
+      range: keys.sheets.intentSpreadsheetRange
     }, (err, response) => {
       if (err) return reject(err)
       return resolve(response.data)

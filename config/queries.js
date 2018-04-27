@@ -5,6 +5,10 @@ module.exports = {
     REPLACE INTO sections (course_id, section, title, term, instructor, inst_type, registered, cap, credits)
     VALUES ?
   `,
+  insertIntentInfo: `
+    REPLACE INTO intents (intent, fulfillmentText, fulfillmentError, fulfillmentFunction)
+    VALUES ?
+  `,
   getAllCourses: `
     SELECT *
     FROM sections
@@ -39,7 +43,7 @@ module.exports = {
   `,
   getIntent: `
     SELECT *
-    FROM fulfillment
+    FROM intents
     WHERE intent = ?
   `
 }
