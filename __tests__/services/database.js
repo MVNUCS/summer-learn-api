@@ -1,86 +1,19 @@
 /* global describe beforeAll afterAll test expect  */
 'use strict'
 require('dotenv').config()
+process.env.NODE_ENV = 'test'
 
 const database = require('../../services/database')
-const mysql = require('mysql')
-const keys = require('../../config/keys')
-
-const createMockCourses = `
-  REPLACE INTO sections (course_id, section, title, term, instructor, inst_type, registered, cap, credits)
-  VALUES ('TST-1003', 1, 'Test Course One', 'A6', 'T. Ester', 'F', 25, 100, 3),
-         ('TST-1003', 2, 'Test Course One', 'B6', 'T. Ester', 'F', 25, 100, 3),
-         ('TST-1024', 1, 'Test Course Two', 'B6', 'T. Ester', 'F', 15, 45, 4),
-         ('TST-4032', 1, 'Test Course Three', 'C6', 'T. Ester', 'F', 10, 75, 2)
-`
-const deleteMockCourses = `
-  DELETE FROM sections
-  WHERE course_id LIKE 'TST%'
-`
-
-const deleteAllCourses = `
-  DELETE FROM sections
-`
-
-/**
- * Insert mock courses into the database for testing
- */
-function insertMockCourses () {
-  let testConnection = mysql.createConnection(keys.database)
-  return new Promise((resolve, reject) => {
-    testConnection.connect((err) => {
-      if (err) return reject(err)
-      testConnection.query(createMockCourses, (err, results, fields) => {
-        if (err) return reject(err)
-        return resolve(results)
-      })
-      testConnection.end()
-    })
-  })
-}
-
-/**
- * Remove the mock courses from the database
- */
-function clearMockCourses () {
-  let testConnection = mysql.createConnection(keys.database)
-  return new Promise((resolve, reject) => {
-    testConnection.connect(err => {
-      if (err) return reject(err)
-      testConnection.query(deleteMockCourses, (err, results, fields) => {
-        if (err) return reject(err)
-        return resolve(results)
-      })
-      testConnection.end()
-    })
-  })
-}
-
-/**
- * Remove all courses from the database
- */
-function clearAllCourses () {
-  let testConnection = mysql.createConnection(keys.database)
-  return new Promise((resolve, reject) => {
-    testConnection.connect(err => {
-      if (err) return reject(err)
-      testConnection.query(deleteAllCourses, (err, results, fields) => {
-        if (err) return reject(err)
-        return resolve(results)
-      })
-      testConnection.end()
-    })
-  })
-}
+const testUtils = require('../utils')
 
 /** Tests for the database service */
 describe('Database', () => {
   beforeAll(() => {
-    return insertMockCourses()
+    return testUtils.insertMockCourses()
   })
 
   afterAll(() => {
-    return clearMockCourses()
+    return testUtils.clearAllCourses()
   })
 
   /** Test database connectivity */
@@ -105,9 +38,9 @@ describe('Database', () => {
 
     /** Test valid input with no data */
     test('should return an empty set when no courses exist in the database', async () => {
-      await clearMockCourses()
+      await testUtils.clearMockCourses()
       let result = await database.getCourse('TST-1003', '1')
-      await insertMockCourses()
+      await testUtils.insertMockCourses()
       expect(result).toHaveLength(0)
     })
 
@@ -140,9 +73,9 @@ describe('Database', () => {
 
     /** Test valid input with no data */
     test('should return an empty set when no courses exist in the database', async () => {
-      await clearMockCourses()
+      await testUtils.clearMockCourses()
       let result = await database.getAllSectionsOfCourse('TST-1003')
-      await insertMockCourses()
+      await testUtils.insertMockCourses()
       expect(result).toHaveLength(0)
     })
 
@@ -169,10 +102,10 @@ describe('Database', () => {
 
     /** Test valid usage with no data */
     test('should return an empty set when no courses exist in the database', async () => {
-      await clearAllCourses()
+      await testUtils.clearAllCourses()
       let result = await database.getAllCourses()
       expect(result).toHaveLength(0)
-      await insertMockCourses()
+      await testUtils.insertMockCourses()
     })
 
     /** Test exceptions */

@@ -1,7 +1,9 @@
-/* global describe test expect  */
+/* global describe test expect */
 'use strict'
 
 process.env.LOGGING_LEVEL = 'error'
+process.env.NODE_ENV = 'test'
+
 const request = require('supertest')
 
 const app = require('../app')

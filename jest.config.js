@@ -10,7 +10,11 @@ module.exports = {
     },
     {
       displayName: 'unit tests',
-      testEnvironment: 'node'
+      testEnvironment: 'node',
+      testPathIgnorePatterns: [
+        '/node_modules',
+        '<rootDir>/__tests__/utils.js'
+      ]
     }
   ]
 }
