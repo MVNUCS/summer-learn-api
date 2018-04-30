@@ -52,14 +52,17 @@ app.use((err, req, res, next) => {
 })
 
 /** Start the API */
-app.listen(keys.express.port, () => {
-  logger.log('info', `Server started on port ${keys.express.port}`)
-  api.updateCache()
-    .then(() => logger.log('info', 'Initial cache update complete'))
-    .catch((error) => {
-      logger.log('error', 'An error has occured during the initial cache update')
-      logger.log('error', error)
-    })
-})
+if (process.env.NODE_ENV !== 'testing') {
+  app.listen(keys.express.port, () => {
+    logger.log('info', `Server started on port ${keys.express.port}`)
+    api.updateCache()
+      .then(() => logger.log('info', 'Initial cache update complete'))
+      .catch((error) => {
+        logger.log('error', 'An error has occured during the initial cache update')
+        logger.log('error', error)
+      })
+  })
+}
 
+/** For testing */
 module.exports = app

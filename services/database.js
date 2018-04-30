@@ -34,9 +34,7 @@ exports.checkHealth = function () {
 exports.getCourse = function (courseId, sectionId) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (err) {
-        return reject(err)
-      }
+      if (err) return reject(err)
       let query = ''
       if (sectionId === undefined) {
         query = queries.getAllSectionsOfCourse
@@ -44,9 +42,7 @@ exports.getCourse = function (courseId, sectionId) {
         query = queries.getCourse
       }
       connection.query(query, [courseId, sectionId], (err, results, fields) => {
-        if (err) {
-          return reject(err)
-        }
+        if (err) return reject(err)
         return resolve(results)
       })
       connection.release()

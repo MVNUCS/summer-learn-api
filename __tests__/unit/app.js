@@ -1,11 +1,13 @@
-/* global describe test expect  */
+/* global describe test expect */
 'use strict'
 
 process.env.LOGGING_LEVEL = 'error'
+process.env.NODE_ENV = 'testing'
+
 const request = require('supertest')
 
-const app = require('../app')
-const keys = require('../config/keys')
+const app = require('../../app')
+const keys = require('../../config/keys')
 
 /**
  * These tests make sure the general API is working
