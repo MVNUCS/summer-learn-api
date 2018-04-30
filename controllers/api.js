@@ -23,7 +23,7 @@ exports.updateCache = async function () {
     logger.log('debug', `Inserted courses into database with ${courseResult.affectedRows} rows affected`)
     let intentResult = await database.insertIntentInfo(intents)
     logger.log('debug', `Inserted intents into database with ${intentResult.affectedRows} rows affected`)
-    return {msg: `Database insert successful with ${courseResult.affectedRows + intentResult.affectedRows} total rows affected`}
+    return {msg: `Database insert successful`, totalRowsAffected: courseResult.affectedRows + intentResult.affectedRows}
   } catch (error) {
     throw error
   }

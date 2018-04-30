@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 })
 
 /** Start the API */
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'testing') {
   app.listen(keys.express.port, () => {
     logger.log('info', `Server started on port ${keys.express.port}`)
     api.updateCache()
