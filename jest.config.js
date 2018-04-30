@@ -6,11 +6,25 @@ module.exports = {
     {
       runner: 'jest-runner-standard',
       testMatch: ['<rootDir>/**/*.js'],
-      displayName: 'standard linting'
+      displayName: 'Standard Linting'
     },
     {
-      displayName: 'unit tests',
-      testEnvironment: 'node'
+      displayName: 'Unit Tests',
+      testEnvironment: 'node',
+      testPathIgnorePatterns: [
+        '/node_modules/',
+        '<rootDir>/__tests__/integration/',
+        '<rootDir>/__tests__/utils.js'
+      ]
+    },
+    {
+      displayName: 'Integration Tests',
+      testEnvironment: 'node',
+      testPathIgnorePatterns: [
+        '/node_modules/',
+        '<rootDir>/__tests__/unit/',
+        '<rootDir>/__tests__/utils.js'
+      ]
     }
   ]
 }
