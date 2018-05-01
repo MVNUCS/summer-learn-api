@@ -21,3 +21,5 @@ How to run
 ```
 4. Setup the database using MySQL with the included `setup.sql` file in the `sql` directory
 5. Run with `node app`
+
+Test with `yarn test`
